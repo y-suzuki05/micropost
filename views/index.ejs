@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <%- include('./header'); %> <%- include('./error_messages'); %> <%
+    if(isAuth) { %>
+    <div class="container">
+      <div class="row">
+        <!-- ユーザー情報 -->
+        <div class="col">
+          <div>
+            <p class="display-4"><%= name.name %></p>
+            <p><%= postCount %> microposts</p>
+            <div class="flex-row">
+              <a href="/users/<%= currentUser.id %>/following" class="mr-2">
+                <%= followingCount %> following
+              </a>
+              <a href="/users/<%= currentUser.id %>/followers">
+                <%= followerCount %> followers
+              </a>
+            </div>
+          </div>
+          <!-- コメント投稿フォーム -->
+          <form action="/" method="post" class="mt-3 d-flex flex-column w-75">
+            <textarea required name="post"></textarea>
+            <input type="submit" value="Post" class="btn btn-primary mt-3" />
+          </form>
+        </div>
+        <!-- コメント表示エリア -->
+        <div class="col">
+          <p class="display-4">MicroPost Feed</p>
+          <% for(let microPost of microPosts){ %>
+          <div class="card mb-3">
+            <div class="card-body">
+              <!-- ユーザーが存在する場合はリンクにする -->
+              <% if(microPost.name) { %>
+              <a href="/users/<%= microPost.user_id %>" class="card-link d-inline-block mb-3"><%= microPost.name %></a>
+              <% } else { %>
+              <p class="card-text">削除されたユーザー</p>
+              <% } %>
+              <p class="card-text"><%= microPost.content %></p>
+              <p class="card-text"><%= microPost.created_at %></p>
+              <!-- 自分の投稿を削除できる -->
+              <% if (Number(microPost.user_id) === currentUser.id) { %>
+              <form
+                action="/posts/<%= microPost.microposts_id %>/delete"
+                method="post"
+                onsubmit="return confirm('本当に削除しますか？')"
+              >
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+              <% } %>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+      <% } else { %>
+      <h1 class="text-center">Welcome to the MicroPostApp</h1>
+      <div class="text-center">
+        <a href="/accounts/signup">Sign up now!</a>
+      </div>
+      <% } %>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
