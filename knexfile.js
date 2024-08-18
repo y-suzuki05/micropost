@@ -15,7 +15,7 @@ module.exports = {
     },
   },
   production: {
-    client: "mysql",
+    client: "pg",
     connection: {
       host: process.env.PGHOST,
       user: process.env.PGUSER,
