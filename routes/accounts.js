@@ -41,7 +41,7 @@ router.post("/signup", function (req, res, next) {
             name: username,
             email: email,
             password: hashedPassword,
-            isAdmin: isAdmin,
+            isadmin: isAdmin,
           })
           .then(function () {
             // res.redirect("/");
