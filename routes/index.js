@@ -4,7 +4,7 @@ const knex = require("../db/knex");
 
 // 投稿時の日時を取得
 function getCurrentDate() {
-  const now = new Date();
+  const now = new Date().toISOString();
   return now;
 }
 
