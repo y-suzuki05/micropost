@@ -21,7 +21,7 @@
         <li class="list-group-item">
           <a href="/users/<%= user.id %>"><%= user.name %></a>
           <!-- 管理者はユーザーを削除できる -->
-          <% if (user.id !== currentUser.id && Boolean(currentUser.isAdmin)) {
+          <% if (user.id !== currentUser.id && Boolean(currentUser.isadmin)) {
           %>
           <form
             action="/users/<%= user.id %>/delete"
